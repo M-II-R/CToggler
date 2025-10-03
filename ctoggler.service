@@ -1,0 +1,16 @@
+[Unit]
+Description=The minimal systemd daemon service
+After=network.target
+StartLimitBurst=5
+StartLimitIntervalSec=10
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=3
+User=root
+ExecStart="/usr/bin/ctoggler"
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
