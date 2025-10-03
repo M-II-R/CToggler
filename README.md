@@ -1,2 +1,26 @@
 # CToggler
-Simple and minimal systemd daemon that switches between wireless connection (with IWD) and wired.
+Simple and minimal single-file systemd daemon that switches between wireless connection (with IWD) and wired.
+
+# How to build:
+
+To build this program, you have to install package with systemd libs (for Ubuntu it may be called "libsystemd-dev") and compiler.
+
+To start building, you can just use this command:
+<pre> 
+  clang++ -lsystemd -O3 daemon.cpp 
+</pre>
+Or this:
+<pre>
+  g++ -lsystemd -O3 daemon.cpp 
+</pre>
+
+# How to install:
+
+First you need to install some dependencies: dhcpcd and iwd. Then you have to move some files: ctoggler.service to /usr/lib/systemd/system, ctoggler executable to /usr/bin.
+
+# How to use:
+
+Install the app and enable the daemon:
+<pre>
+  systemctl enable --now  ctoggler.service
+</pre>
