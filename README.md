@@ -16,7 +16,7 @@ Or this:
 
 # How to install:
 
-First you need to install some dependencies: dhcpcd and iwd. Then you have to move some files: ctoggler.service to /usr/lib/systemd/system, ctoggler executable to /usr/bin, ctoggler.conf to /etc.
+First you need to install some dependencies: dhcpcd and iwd. Then you have to move some files: ctoggler.service to /usr/lib/systemd/system, ctoggler executable to /usr/bin, ctoggler.conf to /etc. There is a PKGBUILD and a prebuilt package for Arch linux in release.
 
 # How to use:
 
