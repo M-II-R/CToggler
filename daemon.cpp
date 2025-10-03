@@ -9,6 +9,8 @@
 #include <mutex>
 #include <condition_variable>
 #include <atomic>
+#include <fstream>
+#include <string>
 
 int main (int argc, char** argv) {
 	std::condition_variable cv;
@@ -33,20 +35,33 @@ int main (int argc, char** argv) {
 			cv.notify_all();
 			});
 	thr.detach();
+	std::string eth;
+	std::string wifi;
+	{std::ifstream stream("/etc/ctoggler.conf", std::ifstream::in);
+	if (stream.is_open()){
+		std::string input;
+		while (std::getline(stream, input, '=')) {
+			if (input == "eth") {
+				std::getline(stream, eth);
+			}
+			else if (input == "wifi") {
+				std::getline(stream, wifi);
+			}
+		}
+		stream.close();
+	}}
+	if (argc > 1) {
+		eth = argv[1];
+		if (argc > 2) {
+			wifi = argv[2];
+		}
+	}
 	bool eth_running = false; // Is ethernet cable connected?
 	while (cont.load()) {
 		struct ifaddrs* addrs;
 		if (getifaddrs(&addrs) == -1) { // Something went wrong...
 			sd_notifyf(0, u8"STATUS=Failed to start up.\n ERRNO=1");
 			return 1;
-		}
-		std::string eth;
-		std::string wifi;
-		if (argc > 1) {
-			eth = argv[1];
-			if (argc > 2) {
-				wifi = argv[2];
-			}
 		}
 		for (struct ifaddrs* ifa = addrs; ifa != nullptr; ifa = ifa->ifa_next) {
 			if (eth == ifa->ifa_name) {
