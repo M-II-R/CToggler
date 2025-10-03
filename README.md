@@ -7,11 +7,11 @@ To build this program, you have to install package with systemd libs (for Ubuntu
 
 To start building, you can just use this command:
 <pre> 
-  clang++ -lsystemd -O3 daemon.cpp 
+  clang++ -lsystemd -O3 daemon.cpp -o ctoggler
 </pre>
 Or this:
 <pre>
-  g++ -lsystemd -O3 daemon.cpp 
+  g++ -lsystemd -O3 daemon.cpp -o ctoggler
 </pre>
 
 # How to install:
