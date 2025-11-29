@@ -24,6 +24,7 @@ Install the app and configure it. Write to /etc/ctoggler.conf:
 <pre>
 eth=Your wired interface name
 wifi=Your wireless interface name
+dhcp=Your DHCP client name
 </pre>
 Then enable the daemon:
 <pre>
