@@ -35,8 +35,9 @@ int main (int argc, char** argv) {
 			cv.notify_all();
 			});
 	thr.detach();
-	std::string eth;
-	std::string wifi;
+	std::string eth = u8"eth0";
+	std::string wifi = u8"wlan0";
+	std::string dhcp = u8"dhcpcd";
 	{std::ifstream stream("/etc/ctoggler.conf", std::ifstream::in);
 	if (stream.is_open()){
 		std::string input;
@@ -47,6 +48,9 @@ int main (int argc, char** argv) {
 			else if (input == "wifi") {
 				std::getline(stream, wifi);
 			}
+			else if (input == "dhcp") {
+				std::getline(stream, dhcp);
+			}
 		}
 		stream.close();
 	}}
@@ -54,6 +58,9 @@ int main (int argc, char** argv) {
 		eth = argv[1];
 		if (argc > 2) {
 			wifi = argv[2];
+			if (argc > 3) {
+				dhcp = argv[3];
+			}
 		}
 	}
 	bool eth_running = false; // Is ethernet cable connected?
@@ -68,7 +75,7 @@ int main (int argc, char** argv) {
 				if (ifa->ifa_flags & IFF_RUNNING) { // If running (cable connected)...
 					if (!eth_running) { // And we didn't know about it...
 						eth_running = true;
-						std::system(u8"dhcpcd");
+						std::system(dhcp.c_str());
 						if (cont.load()) {
 							std::unique_lock<std::mutex> lock(mut);
 							cv.wait_for(lock, std::chrono::seconds(3), [&cont]{return !cont.load();});
