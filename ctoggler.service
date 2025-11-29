@@ -1,5 +1,5 @@
 [Unit]
-Description=The minimal systemd daemon service
+Description=A simple daemon that switches between wireless and wired connection.
 After=network.target
 StartLimitBurst=5
 StartLimitIntervalSec=10
